@@ -1,0 +1,11 @@
+name: slack-events-api
+version: 0.1.0
+crystal: 0.30.1
+
+authors:
+  - Xavier Francisco <echo "moc.liamg@ocsicnarf.n.reivax" | rev>
+
+description: |
+  The middlewares you need to deal with Slack Events API
+
+license: MIT

@@ -1,0 +1,28 @@
+language: crystal
+script:
+  - crystal spec
+  - crystal tool format --check
+  - crystal docs
+
+
+before_deploy:
+  - git config --local user.name "Xavier Francisco"
+  - git config --local user.email "<echo 'moc.liamg@ocsicnarf.n.reivax' | rev>"
+  - if [[ "$TRAVIS_BRANCH" = "releases" ]] ; then git tag "$TRAVIS_COMMIT_MESSAGE"; fi
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    project_name: crystal-slack-events-api
+    on:
+      branch: master
+    local_dir: docs
+
+  - provider: releases
+    api_key:
+      secure: 077LR+xGo8Ott2b+i2FRcSlHSdCuhf3wtW9iUmeJyvTDXvMe21pNjHyDzwPPGe2i81sqvwkddJxEG6r1KmSWVwSiSi4UCiyuDf7C38fUy3kp/lBActy4jymm5Nipk+Egu1aIiR/wDRQ1k1z7cC3sQPCvTLuA5SLie4KyX/d0r44ofG4yIHBsIaRnOtcm6D7ZYMKNiFJ6Cc3hv+aBPRvRFmG+yRtyr+qja0FjyAPvV3R0/beGbwymbWYfX3VuejUsqq42TlK3IkPT6D9o6t1BF8RkAHnG90TNmw6Fd+4p27MJ+KNryxmz9IYoU++oHsxhecKYmSbedKGUZHwAjHIsLJW3fbQIy+nQyzeiMxMmp0k3UrR2EFBVxAg3M1Unw9vhBtskKO39nw23tI2bjqSqfWdVCyOvTw54V5jTwuW8Klv19qEe9m1kjPrLUQvlMPjUclqm1g/dKwbqcFtztlwBu2JyDPutjRwpeJSun0NpEg0qtZU0DJssnNOAShQnoXDKIpyPESTaT0MU09Xj1xlVrzxQy5WK34ZSLz8FzP3KMXC7eKVaJuwjpJRw9kkWPPj6px3DHo3hn2e0OS0fLpkeZ9CWkYGzmS6ADCt33idicRgXT7xPn0YOKn/zjpu8WwXssMwCuy46+iSpeiXj80dYvd5RJ/htf65re45d2lFqWZk=
+    file_glob: true
+    file: "*"
+    on:
+      branch: releases
